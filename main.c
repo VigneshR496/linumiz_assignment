@@ -1,14 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "main.h"
 
-typedef struct Node {
-  char data;
-  struct Node *next;
-} Node;
+int main(int argc, char *argv[]) {
+  if (argc < 2) {
+    printf("Usage: %s <string>\n", argv[0]);
+    return 1;
+  }
 
-typedef struct {
-  Node *head;
-} LinkedList;
+  LinkedList str_list;
+  initializeLinkedList(&str_list);
+
+  saveStrInLinkedList(argv[1], &str_list);
+  printReverseStrLinkedList(&str_list);
+
+  return 0;
+}
 
 Node *createNode(char data) {
   Node *new_node = (Node *)malloc(sizeof(Node));
@@ -34,20 +41,13 @@ void insertAtTail(LinkedList *list, char data) {
   }
 }
 
+void initializeLinkedList(LinkedList *list) { list->head = NULL; }
+
 void saveStrInLinkedList(char *in_str, LinkedList *list) {
   while (*in_str != '\0') {
     insertAtTail(list, *in_str);
     in_str++;
   }
-}
-
-void printLinkedList(LinkedList *list) {
-  Node *temp = list->head;
-  while (temp) {
-    printf("%c", temp->data);
-    temp = temp->next;
-  }
-  printf("\n");
 }
 
 void printWordReverse(Node *word_strt, Node *word_end) {
@@ -78,22 +78,4 @@ void printReverseStrLinkedList(LinkedList *list) {
     }
   }
   printf("\n");
-}
-
-void initializeLinkedList(LinkedList *list) { list->head = NULL; }
-
-int main(int argc, char *argv[]) {
-  if (argc < 2) {
-    printf("Usage: %s <string>\n", argv[0]);
-    return 1;
-  }
-
-  LinkedList str_list;
-  initializeLinkedList(&str_list);
-
-  saveStrInLinkedList(argv[1], &str_list);
-  printLinkedList(&str_list);
-  printReverseStrLinkedList(&str_list);
-
-  return 0;
 }
